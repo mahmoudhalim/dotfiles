@@ -1,0 +1,35 @@
+map f $vi $(fzf)
+map X extract
+set ignorecase true
+set icons true
+set shell zsh
+
+
+cmd extract ${{
+	set -f
+  if [ -f $fx ] ; then
+    case $fx in
+      *.tar.bz2)   tar xjf $fx   ;;
+      *.tar.gz)    tar xzf $fx   ;;
+      *.tar.xz)    tar xJf $fx   ;;
+      *.bz2)       bunzip2 $fx   ;;
+      *.rar)       unrar x $fx     ;;
+      *.gz)        gunzip $fx    ;;
+      *.tar)       tar xf $fx    ;;
+      *.tbz2)      tar xjf $fx   ;;
+      *.tgz)       tar xzf $fx   ;;
+      *.zip)       unzip $fx     ;;
+      *.Z)         uncompress $fx;;
+      *.7z)        7z x $fx      ;;
+      *)           echo "'$fx' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$fx' is not a valid file"
+  fi
+}}
+
+# previews
+set previewer ctpv
+set cleaner ctpvclear
+&ctpv -s $id
+&ctpvquit $id
